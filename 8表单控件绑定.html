@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-表单控件绑定</title>
+	<script src="script/vue.js"></script>
+	<style type="text/css">
+		div{
+			padding-left:50px;
+		}
+	</style>
+</head>
+<body>
+	<div id='app'>
+		<h1>基础用法</h1>
+		<div>
+		<h2>Text</h2>
+		<p>Message is :{{message}}</p>
+		<input type="text" v-model="message" placeholder="edit me"/>
+
+		<h2>Checkbox</h2>
+		<p>
+			<input type="checkbox" id="check1" v-model="checked"/>
+			<label for="check1">{{checked}}</label>
+			<br/><br/><br/>
+			names:
+			<input type="checkbox" v-model="checkedNames" id="jack" value="jack">
+			<label for="jack">jack</label>
+			<input type="checkbox" v-model="checkedNames" id="john" value="john">
+			<label for="john">john</label>
+			<input type="checkbox" v-model="checkedNames" id="mike" value="mike">
+			<label for="mike">mike</label>
+			<p>CheckedNames is :{{checkedNames|json}}</p>
+		</p>
+
+		<h2>Radio</h2>
+		<p>
+			<input type="radio" id="one" value="one" v-model="picked">
+			<label for="one">one</label>
+			<input type="radio" id="two" value="two" v-model="picked">
+			<label for="two">two</label>
+			<br>
+			<span>Picked:{{picked}}</span>
+		</p>
+
+		<h2>Select</h2>
+		<p>
+			<select v-model="selected">
+				<option v-for="option in options" v-bind:value="option.value">{{option.text}}</option>
+			</select>
+			<span>Selected:{{selected}}</span>
+		</p>
+		</div>
+		<h1>绑定value</h1>
+		<div>
+		<h2>Checkbox</h2>
+		<p>
+			<input type="checkbox" v-model='toggle' v-bind:true-value="a" v-bind:false-value="b"/>
+			<span>toggle:{{toggle | json}}</span>
+		</p>
+		<h2>Radio</h2>
+		<p>
+			<input type="radio" v-model='picked' v-bind:value="a" />
+			<input type="radio" v-model='picked' v-bind:value="b" />
+			<span>toggle:{{picked | json}}</span>
+		</p>
+		<h2>Select Options</h2>
+		<p>
+			<select v-model="selected">
+				<option value="" v-bind:value="{number:123}">123</option>
+			</select>
+			<span>selected:{{selected | json}}</span>
+		</p>
+		</div>
+		<h1>参数特性</h1>
+		<div>
+			<h2>lazy</h2>
+			<p>
+				Message is :{{message}}
+				<br/>
+				<input type="text" v-model="message" placeholder="edit me" lazy/>
+			</p>
+			<h2>number</h2>
+			<p>
+				age is :{{age}}, type of : {{ageType}}
+				<br/>
+				<input type="text" v-model="age" number/>
+			</p>
+			<h2>debounce</h2>
+			<p>
+				Message is :{{message}}
+				<br/>
+				<input type="text" v-model="message" placeholder="edit me" debounce="1000"/>
+			</p>
+		</div>
+	</div>
+	
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				message:'',
+				checked:false,
+				checkedNames:[],
+				picked:'',
+				selected:'A',
+				options:[
+					{text:'One',value:'A'},
+					{text:'Two',value:'B'},
+					{text:'Three',value:'C'}
+				],
+				toggle:'',
+				a:{value:'aaaaaa'},
+				b:123,
+				age:12
+
+			},
+			computed:{
+				ageType:function(){
+					return typeof(this.age);
+				}
+			}
+
+		});
+	</script>
+</body>
+</html>

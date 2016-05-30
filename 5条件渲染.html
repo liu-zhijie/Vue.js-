@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-条件渲染</title>
+	<script src="script/vue.js"></script>
+</head>
+<body>
+	<div id='app'>
+		<h2>v-if</h2>
+		<p v-if="ok">YES</p>
+		<p v-else>NO</p>
+
+		<h2>template v-if</h2>
+		<template v-if="ok">
+			<p>Paragraph 1</p>
+			<p>Paragraph 2</p>
+		</template>
+
+		<h2>v-show</h2>
+		<p v-show="ok">show</p>
+	</div>
+	
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				ok:true
+			}
+		});
+	</script>
+</body>
+</html>

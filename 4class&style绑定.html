@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-class&style绑定</title>
+	<script src="script/vue.js"></script>
+	<style type="text/css">
+	.static{
+		font-weight: bold;
+	}
+	.class-a{
+		color: red;
+	}
+	.class-b{
+		color: green;
+	}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<h2>class绑定</h2>
+		<p class="static" v-bind:class="{'class-a':isA,'class-b':isB}">这里是一行文字</p>
+		<p class="static" v-bind:class="classObject">这里是一行文字</p>
+
+		<p v-bind:class="[classStatic,classA]">这里是一行文字</p>
+		<p v-bind:class="[classStatic,isA?classA:'']">这里是一行文字</p>
+		<p v-bind:class="[classStatic,{'class-a':isA}]">这里是一行文字</p>
+
+		<h2>style绑定</h2>
+		<p v-bind:style="{color:activeColor,fontSize:fontSize+'px'}">这里是一行文字</p>
+		<p v-bind:style="styleObject">这里是一行文字</p>
+		<p v-bind:style="[styleObject,styleObjectB]">这里是一行文字</p>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				isA:true,
+				isB:false,
+				classObject:{
+					'class-a':true,
+					'class-b':false
+				},
+				classA:'class-a',
+				classStatic:'static',
+				activeColor:'red',
+				fontSize:20,
+				styleObject:{
+					color:'red',
+					fontSize:'20px'
+				},
+				styleObjectB:{
+					marginTop:'30px'
+				}
+			}
+		});
+	</script>
+</body>
+</html>

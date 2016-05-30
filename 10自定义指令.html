@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-自定义指令</title>
+	<script src="script/vue.js"></script>
+</head>
+<body>
+	<div id='app'>
+		<h2>自定义组件</h2>
+		<div id="demo" v-demo:hello.a.b="msg"></div>
+	</div>
+	
+	<script>
+        Vue.directive('demo',{
+            bind:function(){
+                console.log('demo bound!');
+            },
+            update:function(value){
+                this.el.innerHTML=
+                    'name-'+this.name+'<br/>'+
+                    'expression-'+this.expression +'<br/>'+
+                    'argument-'+this.arg+'<br/>'+
+                    'modifiers-'+JSON.stringify(this.modifiers)+'<br/>'+
+                    'value-'+value;
+            }
+        });
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'this is msg'
+			}
+		});
+	</script>
+</body>
+</html>

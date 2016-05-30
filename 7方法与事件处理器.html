@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-方法与事件处理器</title>
+	<script src="script/vue.js"></script>
+	<style type="text/css">
+		div{
+			border: 1px #ddd solid ;
+			padding: 20px;
+		}
+		.curr{
+			background-color: #ddd;
+		}
+	</style>
+</head>
+<body>
+	<div id='app'>
+		<h2>方法处理器</h2>
+		<button v-on:click="greet">Button</button>
+
+		<h2>内联语句处理器</h2>
+		<button v-on:click="say('hi')">Say hi</button>
+		<button v-on:click="say('what')">Say what</button>
+		<button v-on:click="say(name)">Say {{name}}</button>
+
+		<h2>事件修饰符</h2>
+		<a href="http://www.qq.com" v-on:click.prevent="say('只弹窗不跳转')">只弹窗不跳转</a>
+		<a href="http://www.qq.com" v-on:click.prevent>不弹窗不跳转</a>
+		<div id="d1" v-on:click="showSelf($event)">
+			<div id="d2"  v-on:click="showSelf($event)">点我会事件冒泡
+				<div id="d3" v-on:click.stop="showSelf($event)">我不会冒泡</div>
+			</div>
+		</div>
+		<h2>按键修饰符</h2>
+
+		<input type="text" v-on:keyup.up="up" v-on:keyup.down="down" v-model="txt" number>
+		
+	</div>
+	
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				ok:true,
+				name:'Vue.js',
+				txt:'选中我再按↑↓键试试',
+			},
+			methods:{
+				greet:function (event){
+					alert('Hello '+this.name+'!');
+					alert(event.target.tagName);
+				},
+				say:function(msg){
+					alert(msg);
+				},
+				showSelf:function(event){
+					alert(event.target.id);
+				},
+				up:function(){
+					this.txt='↑';
+				},
+				down:function(){
+					this.txt='↓';
+				}
+
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-数据绑定</title>
+	<script src="script/vue.js"></script>
+	<style type="text/css">
+		div{
+			padding-left:50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app1">
+		<h2>插值</h2>
+		<div>
+			<h3>文本</h3>
+			<p>messsage : {{message}}</p>
+			<p>this will never change : {{*message}}</p>
+
+			<h3>原始的HTML</h3>
+			{{{raw_html}}}
+			
+			<h3>HTML特性</h3>
+			<div id="item-{{id}}" style="border: 1px #000 solid;">my id is item-{{id}}</div>
+		</div>
+
+		<h2>绑定表达式</h2>
+		<div>
+			<h3>javascript表达式</h3>
+			<p>{{number +1 }}</p>
+			<p>{{ok?'YES':'NO'}}</p>
+			<p>{{message.split('').reverse().join('')}}</p>
+
+			<h3>过滤器</h3>
+			<p>{{message | capitalize}}</p>
+		</div>
+
+		<h2>指令</h2>
+		<p v-if="ok">hello</p>
+		<div>
+			<h3>参数</h3>
+			<a v-bind:href="url">{{url}}</a>
+			
+			<h3>修饰符</h3>
+			<a v-bind:href.literal="url">{{url}}</a>
+		</div>
+
+
+		<h2>缩写</h2>
+		<div>
+			<h3>v-bind缩写</h3>
+			<p>
+				<!--完整语法-->
+				<a v-bind:href="url">{{url}}</a>
+				<!--缩写-->
+				<a :href="url">{{url}}</a>
+			</p>
+			<p>
+				<!--完整语法-->
+				<button v-bind:disabled="ok">button</button>
+				<!--缩写-->
+				<button :disabled="ok">button</button>
+			</p>
+			
+			
+			<h3>v-on缩写</h3>
+			<button v-on:click="showMsg">button</button>
+			<button @click="showMsg">button</button>
+		</div>
+	</div>
+
+	<script>
+		var vm = new Vue({
+			el:'#app1',
+			data:{
+				message:'hello vue.js!',
+				raw_html:'<p>this is html</p>',
+				id:'12',
+				number:4,
+				ok:true,
+				url:'http://www.qq.com'
+			},
+			methods:{
+				showMsg:function(msg){
+					alert(msg);
+				}
+			}
+
+		})
+	</script>
+</body>
+</html>

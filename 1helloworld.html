@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-hello World</title>
+
+	<script src="script/vue.js"></script>
+	<style type="text/css">
+		div{
+			padding-left:50px;
+		}
+	</style>
+</head>	
+<body>
+	<h2>hello world!</h2>
+	<div id="app1">{{message}}</div>
+
+	<script>
+		new Vue({
+			el:'#app1',
+			data:{
+				message:'Hello Vue.js!'
+			}
+		})
+	</script>
+	<h2>双向绑定</h2>
+	<div id="app2">
+		<p>{{message}}</p>
+		<input v-model="message"/>
+	</div>
+
+	<script>
+		new Vue({
+			el:'#app2',
+			data:{
+				message:'Hello Vue.js!'
+			}
+		})
+	</script>
+
+	<h2>渲染列表</h2>
+	<div id="app3">
+		<ul>
+			<li v-for="todo in todos">
+				{{todo.text}}
+			</li>
+		</ul>
+	</div>
+
+	<script>
+		new Vue({
+			el:'#app3',
+			data:{
+				todos:[
+					{text:'JaveScript'},
+					{text:'java'},
+					{text:'PHP'},
+				]
+			}
+		})
+	</script>
+
+	<h2>处理用户输入</h2>
+	<div id="app4">
+		<p>{{message}}</p>
+		<button v-on:click="reverseMessage">Reverse Message</button>
+	</div>
+
+	<script>
+		new Vue({
+			el:'#app4',
+			data:{
+				message:'Hello Vue.js!'
+			},
+			methods:{
+				reverseMessage:function(){
+					this.message = this.message.split('').reverse().join('');
+				}
+			}
+		})
+	</script>
+
+	<h2>综合</h2>
+	<div id="app5">
+		<input type="text" v-model="newTodo" v-on:keyup.enter="addTodo"></input>
+		<ul>
+			<li v-for="todo in todos">
+				<span>{{todo.text}}</span>
+				<button v-on:click="removeTodo($index)">X</button>
+			</li>
+		</ul>
+	</div>
+
+	<script>
+		new Vue({
+			el:'#app5',
+			data:{
+				newTodo:'',
+				todos:[
+					{text:'Add some Todo'}
+				]
+			},
+			methods:{
+
+				addTodo:function(){
+					var text = this.newTodo.trim();
+					if(text){
+						this.todos.push({text:text});
+						this.newTodo='';
+					}
+				},
+				removeTodo:function(index){
+					this.todos.splice(index,1);
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

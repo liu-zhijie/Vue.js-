@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-列表渲染</title>
+	<script src="script/vue.js"></script>
+</head>
+<body>
+	<div id="app3">
+		<h2>v-for</h2>
+		<ul>
+			<li v-for="item in items">
+				{{item.text}}
+			</li>
+		</ul>
+
+		<h2>$index</h2>
+		<ul>
+			<li v-for="item in items">
+				{{parentMessage}} - {{$index}} - {{item.text}}
+			</li>
+		</ul>
+		<h2>$index 别名</h2>
+		<ul>
+			<li v-for="(i,item) in items">
+				{{i}} - {{item.text}}
+			</li>
+		</ul>
+		<h2>1.0.17 of分隔符</h2>
+		<ul>
+			<li v-for="(i,item) of items">
+				{{i}} - {{item.text}}
+			</li>
+		</ul>
+		<h2>template v-for</h2>
+		<ul>
+			<template v-for="(i,item) of items">
+				<li>{{i}} - {{item.text}}</li>
+				<li class="divider"></li>
+			</template>
+		</ul>
+		<h2>排序</h2>
+		<ul>
+			<li v-for="(i,item) in items | orderBy 'text'">
+				{{i}} - {{item.text}}
+			</li>
+		</ul>
+		<h2>对象 v-for</h2>
+		<ul>
+			<li v-for="value in person">
+				{{$key}} : {{value}}
+			</li>
+		</ul>
+		<h2>对象 v-for 别名</h2>
+		<ul>
+			<li v-for="(key,value) in person">
+				{{key}} : {{value}}
+			</li>
+		</ul>
+		<h2>值域 v-for</h2>
+		<span v-for="n in 10"> {{n}} </span>
+	</div>
+
+	<script>
+		var vm = new Vue({
+			el:'#app3',
+			data:{
+				parentMessage:'Parent',
+				items:[
+					{text:'JaveScript'},
+					{text:'java'},
+					{text:'PHP'},
+				],
+				person:{
+					firstName:'John',
+					lastName:'Doe',
+					age:30
+				}
+			}
+		})
+	</script>
+</body>
+</html>

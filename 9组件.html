@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>vuejs学习笔记-组件</title>
+	<script src="script/vue.js"></script>
+	<style type="text/css">
+		.padding {
+			padding-left: 40px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id='app'>
+		<h1>使用组件</h1>
+		<div class="padding">
+			<h2>最简单的例子</h2>
+			<my-component></my-component>
+			<h2>局部注册</h2>
+			<parent-component></parent-component>
+			<h2>注册语法糖</h2>
+			<my-component2></my-component2>
+		</div>
+		<h1>Props</h1>
+		<div class="padding">
+			<h2>使用Props传递数据</h2>
+			<my-component3 my-message="hello"></my-component3>
+
+			<h2>动态Props</h2>
+			<input type="text" v-model="parentMsg">
+			<my-component3 :my-message="parentMsg"></my-component3>
+			<h2>Prop绑定类型</h2>
+			<div style="padding-left:50px;">
+				<h3>默认绑定</h3>
+				<input type="text" v-model="msg1">
+				<my-component3 :my-message="msg1"></my-component3>
+				<h3>双向绑定</h3>
+				<input type="text" v-model="msg2">
+				<my-component3 :my-message.sync="msg2"></my-component3>
+				<h3>单次绑定</h3>
+				<input type="text" v-model="msg3">
+				<my-component3 :my-message.once="msg3"></my-component3>
+			</div>
+			<h2>Prop验证</h2>
+			<input type="text" v-model="msgNumber" number>msgNumber:{{msgNumber}}
+			<br/>
+			<my-component4 :prop-a="msgNumber" :prop-b="msgNumber" :prop-c="msgNumber" :prop-d="msgNumber" :prop-e="msgNumber" :prop-f="msgNumber"
+				:prop-g="msgNumber">
+
+			</my-component4>
+		</div>
+		<h1>父子组件通信</h1>
+		<div class="padding">
+			<h2>自定义事件</h2>
+			<parent-component></parent-component>
+		</div>
+		<h1>使用Slot分发内容</h1>
+		<div class="padding">
+
+			<my-component5></my-component5>
+			<my-component5>{{parentMsg}}</my-component5>
+			<my-component5>
+				<p slot="one">{{msg1}}</p>
+				{{parentMsg}}
+				<p slot="two">{{msg2}}</p>
+			</my-component5>
+		</div>
+
+		<template id="slot-template">
+			<p style="color:red;">this is my component!</p>
+			<slot>没有分发内容时显示我.</slot>
+			<slot name="one"></slot>
+			<slot name="two"></slot>
+		</template>
+	</div>
+
+	<script type="text/javascript">
+		//扩展
+		var MyComponent = Vue.extend({
+			template:'<div>A custom component!</div>'
+		}); 
+		//注册
+		Vue.component('my-component',MyComponent)
+		
+		//扩展
+		var Child = Vue.extend({
+			template:'<div>Child component!<br/><input type="text" v-model="msg"/><button @click="notify">Click</button></div>',
+			data:function(){
+				return {
+					msg:'hello'
+				}
+			},
+			methods:{
+				notify:function(){
+					if(this.msg.trim()){
+						this.$emit('child-msg',this.msg);
+						this.msg='';
+					}
+				}
+			}
+		}); 
+		
+		var Parent = Vue.extend({
+			template:'Parent containts Child<child-component @child-msg="handleIt"></child-component>',
+			components:{
+				'child-component':Child
+			},
+			methods:{
+				handleIt:function(msg){
+					alert(msg);
+				}
+			}
+		});
+		//注册
+		Vue.component('parent-component',Parent)
+
+		Vue.component('my-component2',{template:'<div>this is custiom component !注册语法糖</div>'})
+
+		Vue.component('my-component3',{props:['myMessage'],template:'<div>myMessage is : <input type=\'text\' v-model=\'myMessage\'></div>'})
+
+		Vue.component('my-component4',{
+			props:{
+				propA:null,//任何类型都可以
+				propB:Number,//数字
+				propC:[String,Number],//多种类型
+				propD:{type:String,required:true},//必须是字符串
+				propE:{twoWay:true},//双向绑定
+				//自定义验证函数
+				propF:{
+					validator:function(value){
+						return value>8;
+					}
+				},
+				//转换函数
+				propG:{
+					coerce:function(value){
+						return value+'-coerce';
+					}
+				}
+
+			},
+			template:'<div>propA:{{propA}}<br/>propB:{{propB}}<br/>propC:{{propC}}<br/>propD:{{propD}}<br/>propE:{{propE}}<br/>propF:{{propF}}<br/>propG:{{propG}}<br/></div>'})
+		
+		Vue.component('my-component5',{template:'#slot-template'})
+		
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				parentMsg:'message from parent',
+				msg1:'one',
+				msg2:'two',
+				msg3:'three',
+				msgNumber:5,
+			}
+		});
+	</script>
+
+
+</body>
+
+</html>
